@@ -43,6 +43,13 @@ exports.handler = async (event) => {
     const m = session.metadata || {};
     const amountPaid = `$${(session.amount_total / 100).toFixed(2)}`;
 
+    console.log('Webhook session data:', JSON.stringify({
+      customer_email: session.customer_email,
+      customer_details_email: session.customer_details?.email,
+      amount_total: session.amount_total,
+      metadata: m,
+    }));
+
     if (process.env.FORMSPREE_ENDPOINT) {
       try {
         const subtotalStr = `$${((Number(m.subtotalCents) || 0) / 100).toFixed(2)}`;
@@ -51,7 +58,7 @@ exports.handler = async (event) => {
         const formBody = new URLSearchParams();
         formBody.append('_subject', `New paid Tote Hippo booking — ${m.packageLabel || 'Unknown package'}`);
         formBody.append('name', m.name || '');
-        formBody.append('email', session.customer_email || '');
+        formBody.append('email', session.customer_email || session.customer_details?.email || '');
         formBody.append('phone', m.phone || '');
         formBody.append('package', m.packageLabel || '');
         formBody.append('subtotal', subtotalStr);
@@ -67,7 +74,9 @@ exports.handler = async (event) => {
           `New booking paid in full.\n\nPackage: ${m.packageLabel}\nSubtotal: ${subtotalStr}\nSales Tax: ${taxStr}\nTotal paid: ${amountPaid}\nName: ${m.name}\nEmail: ${session.customer_email}\nPhone: ${m.phone}\nDelivery address: ${m.address}\nDelivery date: ${m.deliveryDate}\nPickup date: ${m.pickupDate}\nNotes: ${m.notes || 'none'}\nStripe session: ${session.id}`
         );
 
-        await fetch(process.env.FORMSPREE_ENDPOINT, {
+        console.log('Formspree payload being sent:', formBody.toString());
+
+        const fsResp = await fetch(process.env.FORMSPREE_ENDPOINT, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -75,6 +84,9 @@ exports.handler = async (event) => {
           },
           body: formBody.toString(),
         });
+        console.log('Formspree response status:', fsResp.status);
+        const fsText = await fsResp.text();
+        console.log('Formspree response body:', fsText);
       } catch (err) {
         console.error('Formspree notification failed:', err);
         // Don't fail the webhook over a notification hiccup — the payment
