@@ -45,14 +45,26 @@ exports.handler = async (event) => {
 
     if (process.env.FORMSPREE_ENDPOINT) {
       try {
+        const subtotalStr = `$${((Number(m.subtotalCents) || 0) / 100).toFixed(2)}`;
+        const taxStr = `$${((Number(m.taxCents) || 0) / 100).toFixed(2)}`;
+
         const formBody = new URLSearchParams();
         formBody.append('_subject', `New paid Tote Hippo booking — ${m.packageLabel || 'Unknown package'}`);
         formBody.append('name', m.name || '');
         formBody.append('email', session.customer_email || '');
         formBody.append('phone', m.phone || '');
+        formBody.append('package', m.packageLabel || '');
+        formBody.append('subtotal', subtotalStr);
+        formBody.append('sales_tax', taxStr);
+        formBody.append('total_paid', amountPaid);
+        formBody.append('delivery_address', m.address || '');
+        formBody.append('delivery_date', m.deliveryDate || '');
+        formBody.append('pickup_date', m.pickupDate || '');
+        formBody.append('notes', m.notes || 'none');
+        formBody.append('stripe_session_id', session.id || '');
         formBody.append(
           'message',
-          `New booking paid in full.\n\nPackage: ${m.packageLabel}\nSubtotal: $${((Number(m.subtotalCents) || 0) / 100).toFixed(2)}\nSales Tax: $${((Number(m.taxCents) || 0) / 100).toFixed(2)}\nTotal paid: ${amountPaid}\nName: ${m.name}\nEmail: ${session.customer_email}\nPhone: ${m.phone}\nDelivery address: ${m.address}\nDelivery date: ${m.deliveryDate}\nPickup date: ${m.pickupDate}\nNotes: ${m.notes || 'none'}\nStripe session: ${session.id}`
+          `New booking paid in full.\n\nPackage: ${m.packageLabel}\nSubtotal: ${subtotalStr}\nSales Tax: ${taxStr}\nTotal paid: ${amountPaid}\nName: ${m.name}\nEmail: ${session.customer_email}\nPhone: ${m.phone}\nDelivery address: ${m.address}\nDelivery date: ${m.deliveryDate}\nPickup date: ${m.pickupDate}\nNotes: ${m.notes || 'none'}\nStripe session: ${session.id}`
         );
 
         await fetch(process.env.FORMSPREE_ENDPOINT, {
