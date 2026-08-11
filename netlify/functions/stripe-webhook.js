@@ -45,27 +45,23 @@ exports.handler = async (event) => {
 
     if (process.env.FORMSPREE_ENDPOINT) {
       try {
+        const formBody = new URLSearchParams();
+        formBody.append('_subject', `New paid Tote Hippo booking — ${m.packageLabel || 'Unknown package'}`);
+        formBody.append('name', m.name || '');
+        formBody.append('email', session.customer_email || '');
+        formBody.append('phone', m.phone || '');
+        formBody.append(
+          'message',
+          `New booking paid in full.\n\nPackage: ${m.packageLabel}\nSubtotal: $${((Number(m.subtotalCents) || 0) / 100).toFixed(2)}\nSales Tax: $${((Number(m.taxCents) || 0) / 100).toFixed(2)}\nTotal paid: ${amountPaid}\nName: ${m.name}\nEmail: ${session.customer_email}\nPhone: ${m.phone}\nDelivery address: ${m.address}\nDelivery date: ${m.deliveryDate}\nPickup date: ${m.pickupDate}\nNotes: ${m.notes || 'none'}\nStripe session: ${session.id}`
+        );
+
         await fetch(process.env.FORMSPREE_ENDPOINT, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
             Accept: 'application/json',
-            Referer: process.env.URL || 'https://totehippo.com',
           },
-          body: JSON.stringify({
-            subject: `New paid Tote Hippo booking — ${m.packageLabel || 'Unknown package'}`,
-            name: m.name,
-            email: session.customer_email,
-            amount_paid: amountPaid,
-            package: m.packageLabel,
-            customer_phone: m.phone,
-            delivery_address: m.address,
-            delivery_date: m.deliveryDate,
-            pickup_date: m.pickupDate,
-            notes: m.notes,
-            stripe_session_id: session.id,
-            message: `New booking paid in full.\n\nPackage: ${m.packageLabel}\nAmount paid: ${amountPaid}\nName: ${m.name}\nEmail: ${session.customer_email}\nPhone: ${m.phone}\nDelivery address: ${m.address}\nDelivery date: ${m.deliveryDate}\nPickup date: ${m.pickupDate}\nNotes: ${m.notes || 'none'}\nStripe session: ${session.id}`,
-          }),
+          body: formBody.toString(),
         });
       } catch (err) {
         console.error('Formspree notification failed:', err);
