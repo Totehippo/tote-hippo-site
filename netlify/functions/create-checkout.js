@@ -14,6 +14,8 @@ exports.handler = async (event) => {
     const data = JSON.parse(event.body);
     const {
       packageLabel,
+      subtotalCents,
+      taxCents,
       totalCents,
       name,
       email,
@@ -31,18 +33,35 @@ exports.handler = async (event) => {
       };
     }
 
+    // Fall back to treating the whole total as the subtotal (no tax line)
+    // if subtotal/tax weren't provided, so this still works either way.
+    const rentalAmount = subtotalCents != null ? subtotalCents : totalCents;
+    const taxAmount = taxCents != null ? taxCents : 0;
+
     const siteUrl = process.env.URL || 'http://localhost:8888';
 
     const params = new URLSearchParams();
     params.append('mode', 'payment');
     params.append('payment_method_types[]', 'card');
+
     params.append('line_items[0][price_data][currency]', 'usd');
     params.append(
       'line_items[0][price_data][product_data][name]',
       `Tote Hippo Booking — ${packageLabel}`
     );
-    params.append('line_items[0][price_data][unit_amount]', String(totalCents));
+    params.append('line_items[0][price_data][unit_amount]', String(rentalAmount));
     params.append('line_items[0][quantity]', '1');
+
+    if (taxAmount > 0) {
+      params.append('line_items[1][price_data][currency]', 'usd');
+      params.append(
+        'line_items[1][price_data][product_data][name]',
+        'FL Sales Tax (6.5%)'
+      );
+      params.append('line_items[1][price_data][unit_amount]', String(taxAmount));
+      params.append('line_items[1][quantity]', '1');
+    }
+
     params.append('customer_email', email);
     params.append('metadata[packageLabel]', packageLabel);
     params.append('metadata[name]', name);
@@ -51,6 +70,8 @@ exports.handler = async (event) => {
     params.append('metadata[deliveryDate]', deliveryDate || '');
     params.append('metadata[pickupDate]', pickupDate || '');
     params.append('metadata[notes]', notes || '');
+    params.append('metadata[subtotalCents]', String(rentalAmount));
+    params.append('metadata[taxCents]', String(taxAmount));
     params.append(
       'success_url',
       `${siteUrl}/booking-success.html?session_id={CHECKOUT_SESSION_ID}`
