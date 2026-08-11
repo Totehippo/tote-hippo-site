@@ -50,19 +50,21 @@ exports.handler = async (event) => {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
+            Referer: process.env.URL || 'https://totehippo.com',
           },
           body: JSON.stringify({
             subject: `New paid Tote Hippo booking — ${m.packageLabel || 'Unknown package'}`,
+            name: m.name,
+            email: session.customer_email,
             amount_paid: amountPaid,
             package: m.packageLabel,
-            customer_name: m.name,
-            customer_email: session.customer_email,
             customer_phone: m.phone,
             delivery_address: m.address,
             delivery_date: m.deliveryDate,
             pickup_date: m.pickupDate,
             notes: m.notes,
             stripe_session_id: session.id,
+            message: `New booking paid in full.\n\nPackage: ${m.packageLabel}\nAmount paid: ${amountPaid}\nName: ${m.name}\nEmail: ${session.customer_email}\nPhone: ${m.phone}\nDelivery address: ${m.address}\nDelivery date: ${m.deliveryDate}\nPickup date: ${m.pickupDate}\nNotes: ${m.notes || 'none'}\nStripe session: ${session.id}`,
           }),
         });
       } catch (err) {
