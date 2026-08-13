@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partnerships — Tote Hippo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14213D;
+    --ink-soft:#1F2E52;
+    --yellow:#FFC629;
+    --coral:#FF5A3C;
+    --teal:#17B8A6;
+    --cream:#FBF7EE;
+    --paper:#FFFFFF;
+    --line: rgba(20,33,61,0.12);
+    --max: 1160px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk',sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .display{
+    font-family:'Archivo Black',sans-serif;
+    line-height:1.05;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    font-weight:600;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#B9860A;
+  }
+  a{color:inherit;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+
+  /* ---------- NAV (matches index.html) ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(251,247,238,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    max-width:var(--max);margin:0 auto;padding:14px 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:8px;
+    text-decoration:none;color:var(--ink);
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.15rem;
+  }
+  .logo-mark{width:32px;height:32px;flex:none;}
+  .nav-links{
+    list-style:none;display:flex;align-items:center;gap:26px;margin:0;padding:0;
+  }
+  .nav-links a{text-decoration:none;font-weight:500;font-size:0.94rem;color:var(--ink);}
+  .nav-links a:hover{color:#B9860A;}
+  .nav-links .current{color:#B9860A;}
+  .nav-cta{
+    background:var(--coral)!important;color:#fff!important;
+    padding:10px 18px;border-radius:8px;font-weight:700!important;
+  }
+  .nav-cta:hover{color:#fff!important;transform:translateY(-1px);}
+  .nav-phone{display:flex;align-items:center;gap:8px;color:var(--ink);}
+  .nav-phone svg{flex:none;color:var(--yellow);}
+  .nav-phone-num{display:block;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:0.88rem;color:var(--ink);}
+  .nav-phone-hours{display:block;font-size:0.72rem;color:var(--ink-soft);white-space:nowrap;}
+  .nav-phone-cta{display:block;font-size:0.72rem;font-weight:600;color:#B9860A;white-space:nowrap;}
+  .nav-toggle{display:none;background:none;border:none;padding:6px;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 56px;border-bottom:1px solid var(--line);}
+  .hero .eyebrow{margin-bottom:14px;}
+  .hero h1{font-size:clamp(34px,5vw,52px);max-width:820px;}
+  .hero h1 .hl{color:#B9860A;}
+  .hero p.lede{max-width:600px;font-size:1.08rem;color:var(--ink-soft);margin-top:18px;}
+
+  /* ---------- JUMP NAV ---------- */
+  .jumpnav{background:var(--paper);border-bottom:1px solid var(--line);}
+  .jumpnav .wrap{display:flex;gap:8px;flex-wrap:wrap;padding:14px 28px;}
+  .jumpnav a{
+    text-decoration:none;font-size:0.86rem;font-weight:600;color:var(--ink);
+    border:1.5px solid var(--line);padding:8px 16px;border-radius:999px;white-space:nowrap;
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .jumpnav a:hover, .jumpnav a:focus-visible{
+    background:var(--teal);border-color:var(--teal);color:#fff;
+  }
+
+  /* ---------- PARTNER SECTIONS ---------- */
+  .partner{padding:56px 0;border-bottom:1px solid var(--line);scroll-margin-top:64px;}
+  .partner:nth-child(even){background:var(--paper);}
+  .partner .inner{display:grid;grid-template-columns:280px 1fr;gap:48px;align-items:start;}
+  .partner .eyebrow{margin-bottom:8px;}
+  .partner h2{font-size:clamp(24px,3vw,30px);}
+  .benefits{list-style:none;margin:0;padding:0;display:grid;gap:16px;}
+  .benefits li{display:flex;gap:14px;font-size:1.02rem;color:var(--ink);}
+  .benefits li::before{
+    content:"";flex:0 0 auto;width:9px;height:9px;margin-top:8px;
+    background:var(--yellow);border:1.5px solid var(--ink);border-radius:2px;transform:rotate(45deg);
+  }
+
+  @media (max-width:760px){
+    .partner .inner{grid-template-columns:1fr;gap:18px;}
+    .nav-links{display:none;}
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:var(--ink);color:var(--cream);padding:72px 0;text-align:center;}
+  .contact .eyebrow{color:var(--yellow);}
+  .contact h2{font-size:clamp(28px,4vw,38px);color:#fff;margin-top:12px;}
+  .contact p.lede{max-width:520px;margin:16px auto 32px;color:rgba(251,247,238,0.75);font-size:1.02rem;}
+  .contact-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+  .contact-links a{
+    text-decoration:none;font-weight:700;font-size:0.98rem;padding:14px 26px;border-radius:8px;
+    border:1.5px solid rgba(251,247,238,0.3);transition:transform .15s ease, background .15s ease;
+  }
+  .contact-links a.primary{background:var(--coral);border-color:var(--coral);color:#fff;}
+  .contact-links a:hover{transform:translateY(-1px);}
+  .contact-links a:not(.primary):hover{background:rgba(251,247,238,0.08);}
+  .response-note{margin-top:22px;font-size:0.82rem;color:rgba(251,247,238,0.5);font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- FOOTER ---------- */
+  footer.site-footer{padding:28px 0;text-align:center;font-size:0.85rem;color:var(--ink-soft);}
+  footer.site-footer a{text-decoration:underline;text-underline-offset:3px;font-weight:600;color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <svg class="logo-mark" viewBox="0 0 32 32" fill="none">
+        <rect x="4" y="10" width="24" height="18" rx="3" fill="#FFC629" stroke="#14213D" stroke-width="2"/>
+        <path d="M8 10V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v3" stroke="#14213D" stroke-width="2" stroke-linecap="round"/>
+        <path d="M4 16h24" stroke="#14213D" stroke-width="2"/>
+      </svg>
+      Tote Hippo
+    </a>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="#14213D" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html#how">How it works</a></li>
+      <li><a href="index.html#pricing">Pricing</a></li>
+      <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#area">Service area</a></li>
+      <li><a href="partnerships.html" class="current">Partnerships</a></li>
+      <li>
+        <div class="nav-phone">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span>
+            <span class="nav-phone-num">770-715-1598</span>
+            <span class="nav-phone-hours">Mon–Sat 9AM–9PM</span>
+            <span class="nav-phone-cta">Text or Call</span>
+          </span>
+        </div>
+      </li>
+      <li><a href="booking.html" class="nav-cta">Book Now</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Grow together · Free delivery & pickup on us</p>
+    <h1 class="display">Better for your clients. <span class="hl">Less work for you.</span></h1>
+    <p class="lede">We supply the totes, the delivery, and the pickup — you keep the relationship, the revenue, and none of the hassle. Here's how Tote Hippo works with businesses like yours.</p>
+  </div>
+</section>
+
+<nav class="jumpnav">
+  <div class="wrap">
+    <a href="#realtors">Realtors</a>
+    <a href="#movers">Moving Companies</a>
+    <a href="#property-managers">Property Managers</a>
+    <a href="#events">Event Professionals</a>
+    <a href="#organizers">Home Organizers</a>
+    <a href="#sports">Sports Teams & Leagues</a>
+  </div>
+</nav>
+
+<section class="partner" id="realtors">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow">Realtors</p>
+      <h2>Partner with us as a Realtor</h2>
+    </div>
+    <ul class="benefits">
+      <li>Give your clients a stress-free, ready-to-go moving experience — perfect as a closing gift or added touch to your service</li>
+      <li>Co-branded marketing materials so your name travels alongside ours</li>
+      <li>Priority scheduling reserved for all of your referred clients</li>
+    </ul>
+  </div>
+</section>
+
+<section class="partner" id="movers">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow">Moving Companies</p>
+      <h2>Partner with us as a Moving Company</h2>
+    </div>
+    <ul class="benefits">
+      <li>Durable, eco-friendly totes with lockable lids — added security for fragile and valuable items during the move</li>
+      <li>Skip the box run entirely: no sourcing, building, or taping cardboard before every job. Our stackable totes are ready to go, cutting down labor and effort for your crew at every stage of the move</li>
+      <li>Build tote packages into your existing move quotes, giving clients more value without adding to your workload</li>
+      <li>Free delivery and pickup on our end, so totes never become your problem to store, transport, or manage</li>
+    </ul>
+  </div>
+</section>
+
+<section class="partner" id="property-managers">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow">Property Managers</p>
+      <h2>Partner with us as a Property Manager</h2>
+    </div>
+    <ul class="benefits">
+      <li>Keep move-ins and move-outs smoother — hallways and elevators stay clear of cardboard chaos</li>
+      <li>Bulk rental discounts for buildings with multiple units in transition</li>
+      <li>Fast turnaround with free delivery and pickup, so totes never sit around or slow down your schedule</li>
+      <li>Totes delivered straight to your lobby, ready for residents to grab and go</li>
+    </ul>
+  </div>
+</section>
+
+<section class="partner" id="events">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow">Event Professionals</p>
+      <h2>Partner with us as an Event Professional</h2>
+    </div>
+    <ul class="benefits">
+      <li>Carefully transport fragile décor and event items without the stress or risk of damage</li>
+      <li>Free delivery and pickup, including same-day pickup after your event wraps</li>
+      <li>Custom tote package configurations tailored to your event's specific needs</li>
+    </ul>
+  </div>
+</section>
+
+<section class="partner" id="organizers">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow">Home Organizers</p>
+      <h2>Partner with us as a Home Organizer or Decluttering Service</h2>
+    </div>
+    <ul class="benefits">
+      <li>Help your clients purge, pack, and transition through any project — staging a home for sale, downsizing, or tackling a cluttered space</li>
+      <li>Collaborate on joint social media content showing how reusable totes streamline a pantry, closet, or garage overhaul</li>
+      <li>Sturdy, uniform, stackable containers that make your job easier and cleaner from start to finish</li>
+      <li>We love working closely with like-minded businesses and referring clients back and forth as partners</li>
+    </ul>
+  </div>
+</section>
+
+<section class="partner" id="sports">
+  <div class="wrap inner">
+    <div>
+      <p class="eyebrow">Sports Teams & Youth Leagues</p>
+      <h2>Partner with us for Traveling Sports Teams & Youth Leagues</h2>
+    </div>
+    <ul class="benefits">
+      <li>Transport bulky gear, uniforms, and safety equipment that change with every season</li>
+      <li>Custom package configurations built to fit your team's specific needs</li>
+      <li>Free delivery and pickup, so equipment logistics are one less thing to manage</li>
+      <li>Eco-friendly, heavy-duty totes built to handle the wear and tear of athletic gear</li>
+    </ul>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="wrap">
+    <p class="eyebrow">Let's talk</p>
+    <h2>Ready to partner up?</h2>
+    <p class="lede">Reach out and tell us a bit about your business — we'll follow up to talk through how a partnership could work for you.</p>
+    <div class="contact-links">
+      <a class="primary" href="mailto:totehippo@gmail.com">totehippo@gmail.com</a>
+      <div class="nav-phone" style="justify-content:center;color:var(--cream);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3c0-.6.4-1 1-1h3.2c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;">770-715-1598</span>
+      </div>
+    </div>
+    <div class="response-note">We respond within 1 business day.</div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <a href="index.html">Home</a> · <a href="partnerships.html">Partnerships</a> · <a href="booking.html">Book Now</a>
+  </div>
+</footer>
+
+</body>
+</html>

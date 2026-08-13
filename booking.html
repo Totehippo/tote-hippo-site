@@ -310,6 +310,8 @@
       🔒 Payments are processed securely by Stripe.
     </div>
 
+    <p style="font-size:0.82rem;color:var(--ink-soft);margin-top:10px;">By continuing, you agree to our <a href="privacy.html" style="color:var(--yellow);">Privacy Policy</a>.</p>
+
     <div id="payError" style="display:none;background:rgba(255,90,60,0.1);border:1px solid var(--coral);border-radius:12px;padding:14px 16px;font-size:0.88rem;color:var(--text);margin-top:16px;"></div>
 
     <div class="card" style="margin-top:26px;margin-bottom:0;background:#1C1C22;">
@@ -326,11 +328,9 @@
 </main>
 
 <script>
-  const RENTAL_WEEKS = 2; // all current packages are a 2-week base rental
   const qty = { extraTotes:0, dolly:0, goodwill:0 };
   const addonPrices = { extraTotes:3, dolly:15, goodwill:7 };
   const addonLabels = { extraTotes:'Extra tote (per wk)', dolly:'Extra tote dolly or cart', goodwill:'Goodwill donation tote' };
-  const perWeekAddon = { extraTotes:true, dolly:false, goodwill:false };
 
   function changeQty(key, delta){
     qty[key] = Math.max(0, qty[key] + delta);
@@ -352,34 +352,22 @@
     return checked ? { label: checked.value, price: Number(checked.dataset.price) } : { label:'', price:0 };
   }
 
-  const TAX_RATE = 0.065; // 6.5% — Palm Beach County, FL combined sales tax rate
-
   function updateSummary(){
     const pkg = currentPackage();
     let html = `<div class="summary-row"><span>${pkg.label}</span><span>$${pkg.price.toFixed(2)}</span></div>`;
-    let subtotal = pkg.price;
+    let total = pkg.price;
     Object.keys(qty).forEach(key=>{
       if(qty[key] > 0){
-        const weeks = perWeekAddon[key] ? RENTAL_WEEKS : 1;
-        const lineTotal = qty[key] * addonPrices[key] * weeks;
-        subtotal += lineTotal;
-        const weekNote = perWeekAddon[key] ? ` × ${RENTAL_WEEKS} wks` : '';
-        html += `<div class="summary-row"><span>${addonLabels[key]} × ${qty[key]}${weekNote}</span><span>$${lineTotal.toFixed(2)}</span></div>`;
+        const lineTotal = qty[key] * addonPrices[key];
+        total += lineTotal;
+        html += `<div class="summary-row"><span>${addonLabels[key]} × ${qty[key]}</span><span>$${lineTotal.toFixed(2)}</span></div>`;
       }
     });
-    const tax = subtotal * TAX_RATE;
-    const total = subtotal + tax;
-    html += `<div class="summary-row"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>`;
-    html += `<div class="summary-row"><span>FL Sales Tax (6.5%)</span><span>$${tax.toFixed(2)}</span></div>`;
     html += `<div class="summary-row total"><span>Total due today</span><span>$${total.toFixed(2)}</span></div>`;
     document.getElementById('summary').innerHTML = html;
     currentTotal = total;
-    currentSubtotal = subtotal;
-    currentTax = tax;
   }
   let currentTotal = 0;
-  let currentSubtotal = 0;
-  let currentTax = 0;
 
   document.querySelectorAll('input[name="package"]').forEach(r=>r.addEventListener('change', updateSummary));
 
@@ -425,8 +413,6 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           packageLabel: currentPackage().label,
-          subtotalCents: Math.round(currentSubtotal * 100),
-          taxCents: Math.round(currentTax * 100),
           totalCents: Math.round(currentTotal * 100),
           name, email, phone, address, deliveryDate, pickupDate, notes,
         }),
