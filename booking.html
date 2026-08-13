@@ -234,7 +234,7 @@
         <div class="qty"><button type="button" onclick="changeQty('dolly',-1)">−</button><span id="dolly">0</span><button type="button" onclick="changeQty('dolly',1)">+</button></div>
       </div>
       <div class="addon">
-        <div><div class="name">Goodwill donation tote</div><div class="price">$7 / tote — donatable goods only, no trash</div></div>
+        <div><div class="name">Declutter tote</div><div class="price">$9 / tote — non-trash items only, lid must close</div></div>
         <div class="qty"><button type="button" onclick="changeQty('goodwill',-1)">−</button><span id="goodwill">0</span><button type="button" onclick="changeQty('goodwill',1)">+</button></div>
       </div>
     </div>
@@ -276,8 +276,8 @@
       <p>Full package payment is due at booking. Add-on services and extensions are billed to the card on file at the time they are requested.</p>
       <h4>7. Cancellation</h4>
       <p>Bookings may be cancelled free of charge up to 48 hours before the scheduled delivery date. Cancellations inside 48 hours are refunded 50%.</p>
-      <h4>8. Goodwill Donation Service</h4>
-      <p>Totes marked for donation pickup must contain donatable goods only — no trash, hazardous materials, or items in unusable condition. Tote Hippo reserves the right to decline a donation tote that does not meet this standard; declined totes will be treated as a standard rental pickup instead.</p>
+      <h4>8. Declutter Service</h4>
+      <p>Totes marked for the Declutter Service must contain non-trash items only — no hazardous materials, no items in unusable condition, and the lid must be able to close fully with items inside. Items collected are considered donated to Tote Hippo, which will determine at its sole discretion whether to repurpose, rehome, resell, or donate each item — no proceeds are owed to the customer. Tote Hippo reserves the right to decline a tote that does not meet this standard; declined totes will be treated as a standard rental pickup instead.</p>
       <h4>9. Proper Use</h4>
       <p>Rented totes may NOT be used for:</p>
       <ul style="margin:8px 0 0;padding-left:20px;">
@@ -287,7 +287,7 @@
         <li>Living creatures of any kind</li>
       </ul>
       <h4>10. Pickup Access</h4>
-      <p>All totes must be empty (except for Goodwill donation totes), accessible and ready for pickup on the designated date. All pets must be secured or inside (if applicable). If equipment / totes are not accessible, additional fees will apply.</p>
+      <p>All totes must be empty (except for Declutter Service totes), accessible and ready for pickup on the designated date. All pets must be secured or inside (if applicable). If equipment / totes are not accessible, additional fees will apply.</p>
       <h4>11. Liability</h4>
       <p>Use of the totes and equipment is at your own risk. To the fullest extent allowed by law, Tote Hippo is not liable for any injury, loss, or damage to persons or property arising from or related to your use of the rented equipment, including during loading, hauling, moving or storage. You are responsible for using the equipment safely and for how it is used by anyone you allow to use it. This section does not apply to any liability that cannot be waived under applicable law.</p>
       <h4>12. Indemnification</h4>
@@ -329,8 +329,8 @@
 
 <script>
   const qty = { extraTotes:0, dolly:0, goodwill:0 };
-  const addonPrices = { extraTotes:3, dolly:15, goodwill:7 };
-  const addonLabels = { extraTotes:'Extra tote (per wk)', dolly:'Extra tote dolly or cart', goodwill:'Goodwill donation tote' };
+  const addonPrices = { extraTotes:3, dolly:15, goodwill:9 };
+  const addonLabels = { extraTotes:'Extra tote (per wk)', dolly:'Extra tote dolly or cart', goodwill:'Declutter tote' };
 
   function changeQty(key, delta){
     qty[key] = Math.max(0, qty[key] + delta);
